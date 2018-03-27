@@ -1,10 +1,11 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from datetime import datetime
 import json
 
 app = Flask(__name__)
-
+#CORS(app, resources={r"/*/":{"origins":"*"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/empresa'
 
 db = SQLAlchemy(app)
@@ -80,7 +81,7 @@ def getAllClientes():
     data = Cliente.query.all()
     arrayData = []
     for i in data:
-        arrayData.append({'id':i.id,'nombres':i.nombres,'ciudad':i.ciudad,'sexo':i.sexo,'telefono':i.telefono,'direccion':i.direccion,'provincia':i.provincia})
+        arrayData.append({'id':i.id,'nombres':i.nombres,'ciudad':i.ciudad,'sexo':i.sexo,'telefono':i.telefono,'fecha_nacimiento':i.fecha_nacimiento.strftime("%Y-%m-%d %H:%M:%S"),'direccion':i.direccion,'provincia':i.provincia,'fechaAlta':i.fechaAlta.strftime("%Y-%m-%d %H:%M:%S")})
     return json.dumps(arrayData)
 
 
@@ -88,7 +89,6 @@ def getAllClientes():
 def getAllFicheros():
     data = Fichero.query.all()
     arrayData= []
-    #TOFIX, chheck jsonify
     for i in data:
         arrayData.append({'id':i.id,'nombre':i.nombre,'tipo':i.tipo,'id_Vehiculo':i.id_Vehiculo})
     return json.dumps(arrayData)
@@ -98,9 +98,8 @@ def getAllVehiculos():
     data = Vehiculo.query.all()
     arrayData = []
     
-    #TOFIX, falta meter la fecha, al ponerla, peta, datatime is not serializable
-    for i in data:
-        arrayData.append({'id':i.id,'matricula':i.matricula,'marca':i.marca,'modelo':i.modelo,'id_cliente':i.id_cliente,'Tipo':i.Tipo})
+    for i in data: 
+        arrayData.append({'id':i.id,'matricula':i.matricula,'fecha_fabricacion':i.fecha_fabricacion.strftime("%Y-%m-%d %H:%M:%S"),'marca':i.marca,'modelo':i.modelo,'id_cliente':i.id_cliente,'Tipo':i.Tipo})
     return json.dumps(arrayData)
     
 
@@ -120,7 +119,7 @@ def getAllVehiculosFromCliente(clienteId):
     arrayData = []
 
     for i in data:
-        arrayData.append({'id':i.id,'matricula':i.matricula,'marca':i.marca,'modelo':i.modelo,'id_cliente':i.id_cliente,'Ti    po':i.Tipo})
+        arrayData.append({'id':i.id,'matricula':i.matricula,'fecha_fabricacion':i.fecha_fabricacion.strftime("%Y-%m-%d %H:%M:%S"),'marca':i.marca,'modelo':i.modelo,'id_cliente':i.id_cliente,'Tipo':i.Tipo})
     return json.dumps(arrayData)
 
 #1 registro por concreto
@@ -128,7 +127,7 @@ def getAllVehiculosFromCliente(clienteId):
 def getOneClient(id):
     data = Cliente.query.filter_by(id=id)
     arrayData = []
-    arrayData.append({'id':data[0].id,'nombres':data[0].nombres,'ciudad':data[0].ciudad,'sexo':data[0].sexo,'telefono':data[0].telefono,'direccion':data[0].direccion,'provincia':data[0].provincia})
+    arrayData.append({'id':data[0].id,'nombres':data[0].nombres,'ciudad':data[0].ciudad,'sexo':data[0].sexo,'telefono':data[0].telefono,'fecha_nacimiento':data[0].fecha_nacimiento.strftime("%Y-%m-%d %H:%M:%S"),'direccion':data[0].direccion,'provincia':data[0].provincia,'fechaAlta':data[0].fechaAlta.strftime("%Y-%m-%d %H:%M:%S")})
     return json.dumps(arrayData)
 
 
@@ -145,9 +144,8 @@ def getOneCar(carId):
     data = Vehiculo.query.filter_by(id=carId)
     arrayData = []
 
-    #toFIX; falta la fecha
     #TOFIX, si pongo un id que no existe, peta, INDEX OUT OF ERROR
-    arrayData.append({'id':data[0].id,'matricula':data[0].matricula,'marca':data[0].marca,'modelo':data[0].modelo,'id_cliente':data[0].id_cliente,'Tipo':data[0].Tipo})
+    arrayData.append({'id':data[0].id,'matricula':data[0].matricula,'fecha_fabricacion':data[0].fecha_fabricacion.strftime("%Y-%m-%d %H:%M:%S"),'marca':data[0].marca,'modelo':data[0].modelo,'id_cliente':data[0].id_cliente,'Tipo':data[0].Tipo})
     return json.dumps(arrayData)
 
 
