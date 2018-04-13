@@ -1,0 +1,54 @@
+----Abrir server(ejecutar en el directorio) --- python -m SimpleHTTPServer 8000
+	    Luego ir a un navegador y http://127.0.0.1:8000/index           SIN EL .html
+
+
+----Ver que tengo instalado con python
+	pip freeze
+
+--- virtualenv
+	En el pip del sistema instalar virtualenvwrapper para usar los nuevos comandos
+	
+	virtualenv --python=/usr/bin/python3.5 pathNewvirtualEnv   (crea un env con la version 			de python concreta)
+	deactivate ( sale del env)
+	(si no tengo virtualenvwrapper tengo que ejecutar desde el directorio del env . bin/activate)
+
+	ESTOS son gracias a instalaar virtualenvwrapper
+	mkvirtualenv (como el de arriba)
+	workon (activa env)  		
+
+
+		Cosas para meter casi siempre en cada env
+			- ipython
+
+----Buscar "hola" en todos los archivos html de la carpeta
+	grep "hola" carpeta/*.html
+	grep -rne "hola" carpeta/*.html   (busca hola a partir del directorio en todas las carpetas)
+	
+
+---- Ver ficheros en el directorio TAMBIÉN ocultos
+	ls -lrta  (los archivos ocultos aparecen con .git)
+
+
+--- Vi comandos
+	:q	(sale de vim)
+	:wq	(salir y guardar)
+	:q!	(salir SIN guardar)
+
+
+---- Terminator
+	ctlr+shift+x (maximizar shell)
+
+---- Crear directorios
+	mkdir .pepe .pepe/lola .pepe/lola/antonio      (primero crea pepe, luego lola y luego antonio) tambien se puede usar mkdir -p .pepe/lola/antonio
+
+---- Mover directorios
+	mv "fichero" "ruta"
+
+---- eliminar algo
+	rm "fichero"
+	rm -f -r "fichero"
+	-f = forcefully remove file
+	-r = remove contents of directories recursiverlly
+
+---- Run mysql command line
+	mysql -u root -p
